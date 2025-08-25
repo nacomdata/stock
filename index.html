@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Management System</title>
+  <link rel="stylesheet" href="style.css">
+    <script src="public/script.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="Image/NACOM-LOGO.png" alt="NACOM Logo">
+      <h2>Stock Management System</h2>
+    </div>
+    <!-- <nav>
+      <button id="nav-dashboard" class="active" onclick="showSection('dashboard')">Dashboard</button>
+      <button id="nav-stockin" onclick="showSection('stockin')">Stock In</button>
+      <button id="nav-stockout" onclick="showSection('stockout')">Stock Out</button>
+      <button id="nav-new" onclick="showSection('new')">Add Material</button>
+      <button id="nav-report" onclick="showSection('report')">Report</button>
+      <button id="nav-exit" onclick="exitApp()">Exit</button>
+    </nav> -->
+
+<!----------------------------------------------------- Dashboard Section ------------------------------->
+    <section id="dashboard" class="active">
+      <div class="form-row">
+        <div class="left-section">
+          <label for="search-id">🔍 Search by Material ID</label>
+          <input type="text" id="search-id" placeholder="Enter Material ID (e.g. MAT001 or 001)">
+          <div class="info-box" id="material-info">
+            <h3>🧾 Material Information</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Material Name</th>
+                  <th>In</th>
+                  <th>Out</th>
+                  <th>Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="mat-id">—</td>
+                  <td id="mat-name">—</td>
+                  <td id="mat-in">—</td>
+                  <td id="mat-out">—</td>
+                  <td id="mat-balance">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="right-section">
+          <button class="action search" onclick="searchMaterial()">Search</button>
+          <button class="action stockin" onclick="showSection('stockin')">Stock In</button>
+          <button class="action stockout" onclick="showSection('stockout')">Stock Out</button>
+          <button class="action new" onclick="showSection('new')">New Material</button>
+          <button class="action query" onclick="showSection('report')">Report</button>
+          <button class="action exit" onclick="exitApp()">Exit</button>
+        </div>
+      </div>
+    </section>
+<!-- ----------------------------------------------------------------------------------------------------------------- -->
+
+<!---------------------------------- Stock In Section ---------------------------------------------------------------->
+    <section id="stockin">
+      <h3>Stock In Entry</h3>
+      <div class="form-stockin">
+        <form id="stockin-form">
+            <div style="display: flex; gap: 16px; align-items: flex-end;">
+              <div style="flex:1;">
+                <label for="stockin-id">Material ID</label>
+                <input type="text" id="stockin-id" required placeholder="e.g. 001">
+              </div>
+                <div style="flex:2;">
+                  <label for="stockin-name">Material Name</label>
+                  <input type="text" id="stockin-name" required placeholder="e.g. Screws (pack of 100)" readonly>
+                </div>
+            </div>
+              <div class="stockin-qty-date-row" style="display: flex; gap: 16px; align-items: flex-end;">
+                <div style="flex:1;">
+                  <label for="stockin-qty">Quantity In</label>
+                  <input type="number" id="stockin-qty" required min="1" placeholder="Enter quantity">
+                </div>
+                <div style="flex:1;">
+                  <label for="stockin-date">In Date</label>
+                  <input type="date" id="stockin-date" required>
+                </div>
+              </div>
+              <div class="stockin-purchased-row">
+                <label for="stockin-purchasedby">Purchased By</label>
+                <input type="text" id="stockin-purchasedby" required placeholder="Enter purchaser name">
+              </div>
+            <label for="stockin-remarks">Remarks</label>
+            <input type="text" id="stockin-remarks" placeholder="Enter remarks (optional)">
+            <button type="submit" class="action stockin">Add Stock In</button>
+            <button type="button" class="action edit" id="stockout-edit-btn">Edit</button>
+            <button type="button" class="action back" id="stockout-back-btn">Back to Dashboard</button>
+            <button type="button" class="action exit" id="stockout-exit-btn">Exit</button>
+            <div id="stockin-msg"></div>
+        </form>
+      </div>
+    </section>
+<!-- ----------------------------------------------------------------------------------------------------------------- -->
+
+<!-------------------------------------------------- Stock Out Section ------------------------------------------------->
+    <section id="stockout">
+      <h3>Stock Out Entry</h3>
+      <div class="form-stockout">
+        <form id="stockout-form">
+          <div style="display: flex; gap: 16px; align-items: flex-end;">
+            <div style="flex:1;">
+              <label for="stockout-id">Material ID</label>
+              <input type="text" id="stockout-id" required placeholder="e.g. 001">
+            </div>
+            <div style="flex:2;">
+              <label for="stockout-name">Material Name</label>
+              <input type="text" id="stockout-name" required placeholder="e.g. Screws (pack of 100)" readonly>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: flex-end;">
+            <div style="flex:1;">
+              <label for="stockout-qty">Quantity Out</label>
+              <input type="number" id="stockout-qty" required min="1" placeholder="Enter quantity">
+            </div>
+            <div style="flex:1;">
+              <label for="stockout-date">Date</label>
+              <input type="date" id="stockout-date" required>
+            </div>
+          </div>
+          <label for="stockout-receiver">Receiver Name</label>
+          <input type="text" id="stockout-receiver" required placeholder="Enter receiver name">
+          <label for="stockout-remarks">Remarks</label>
+          <input type="text" id="stockout-remarks" placeholder="Enter remarks (optional)">
+          <button type="submit" class="action stockout">Add Stock Out</button>
+          <button type="button" class="action edit" id="stockout-edit-btn">Edit</button>
+          <button type="button" class="action back" id="stockout-back-btn">Back to Dashboard</button>
+          <button type="button" class="action exit" id="stockout-exit-btn">Exit</button>
+          <div id="stockout-msg"></div>
+        </form>
+      </div>
+    </section>
+<!-- ----------------------------------------------------------------------------------------------------------------- -->
+
+
+<!----------------------------------------------- Add New Material Section --------------------------------------------->
+ <section id="new">
+  <h3>Add New Material</h3>
+  <div class="form-newmat">
+    <form id="newmat-form">
+      <div style="display: flex; gap: 16px;">
+        <div style="flex:1;">
+          <label for="newmat-id">Material ID</label>
+          <input type="text" id="newmat-id" required placeholder="e.g. 004">
+        </div>
+        <div style="flex:2;">
+          <label for="newmat-name">Material Name</label>
+          <input type="text" id="newmat-name" required placeholder="e.g. Nails (pack)">
+        </div>
+      </div>
+      <label for="newmat-unit">Unit</label>
+      <input type="text" id="newmat-unit" required placeholder="e.g. pcs, kg, pack">
+      <label for="newmat-remarks">Remarks</label>
+      <input type="text" id="newmat-remarks" placeholder="Enter remarks (optional)">
+      <button type="submit" class="action new">Add Material</button>
+      <button type="button" class="action edit" id="stockout-edit-btn">Edit</button>
+      <button type="button" class="action search" id="stockout-search-btn">Search</button>
+      <button type="button" class="action delete" id="stockout-delete-btn">Delete</button>
+      <button type="button" class="action back" id="stockout-back-btn">Back to Dashboard</button>
+      <button type="button" class="action exit" id="stockout-exit-btn">Exit</button>
+      <div id="newmat-msg"></div>
+    </form>
+  </div>
+</section>
+
+ <!-- ----------------------------------------------------------------------------------------------------------------- -->
+
+
+<!---------------------------------------------------- Report Section -------------------------------------------------->
+    <section id="report">
+      <h3>Stock Report</h3>
+      <div style="margin-bottom: 15px; display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+        <div>
+          <label for="report-date-from">Date From</label>
+          <input type="date" id="report-date-from">
+        </div>
+        <div>
+          <label for="report-date-to">Date To</label>
+          <input type="date" id="report-date-to">
+        </div>
+        <div>
+          <label for="report-material">Material ID</label>
+          <input type="text" id="report-material" placeholder="Type to filter">
+        </div>
+            <button class="action query" id="report-filter-btn" type="button">Filter</button>
+            <button class="action" id="report-clear-btn" type="button" style="background:#bbb; color:#222;">Clear</button>
+            <button class="action" id="report-print-btn" type="button" style="background:#607d8b; color:#fff;">Print</button>
+            <button type="button" class="action back" id="report-back-btn">Back to Dashboard</button>
+            <button type="button" class="action exit" id="report-exit-btn">Exit</button>
+      </div>
+      <div class="info-box">
+        <table id="report-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Material Name</th>
+              <th>In</th>
+              <th>Out</th>
+              <th>Balance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Report rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+<!-- ----------------------------------------------------------------------------------------------------- -->
+
+
+
+  </div>
+  <script>
+    // Auto-fill Material Name in Stock In form when Material ID is entered
+    document.addEventListener('DOMContentLoaded', function() {
+      var stockinId = document.getElementById('stockin-id');
+      var stockinName = document.getElementById('stockin-name');
+      if (stockinId && stockinName) {
+        stockinId.addEventListener('input', function() {
+          var id = stockinId.value.trim();
+          var materials = JSON.parse(localStorage.getItem('materials')) || [];
+          var found = materials.find(m => m.id === id);
+          if (found) {
+            stockinName.value = found.name;
+          } else {
+            stockinName.value = '';
+          }
+        });
+      }
+    });
+    // Navigation
+    function showSection(sectionId) {
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+      document.getElementById('nav-' + sectionId).classList.add('active');
+      if (sectionId === 'report') renderReport();
+    }
+
+    // LocalStorage Setup
+    if (!localStorage.getItem("materials")) {
+      const defaultMaterials = [
+        { id: "001", name: "Screws (pack of 100)", in: 50, out: 20 },
+        { id: "002", name: "Wooden Planks (1m)", in: 200, out: 150 },
+        { id: "003", name: "Paint (1L cans)", in: 30, out: 12 }
+      ];
+      localStorage.setItem("materials", JSON.stringify(defaultMaterials));
+    }
+
+    // Dashboard Search
+    function searchMaterial() {
+      const rawId = document.getElementById("search-id").value.trim().toUpperCase();
+      const id = rawId.startsWith("MAT") ? rawId.slice(3) : rawId;
+      if (!id) {
+        alert("Please enter a Material ID");
+        return;
+      }
+      const materials = JSON.parse(localStorage.getItem("materials")) || [];
+      const material = materials.find(m => m.id === id);
+      if (material) {
+        document.getElementById("mat-id").textContent = material.id;
+        document.getElementById("mat-name").textContent = material.name;
+        document.getElementById("mat-in").textContent = material.in;
+        document.getElementById("mat-out").textContent = material.out;
+        document.getElementById("mat-balance").textContent = material.in - material.out;
+      } else {
+        alert("❌ Material not found!");
+        clearMaterialInfo();
+      }
+    }
+    function clearMaterialInfo() {
+      document.getElementById("mat-id").textContent = "—";
+      document.getElementById("mat-name").textContent = "—";
+      document.getElementById("mat-in").textContent = "—";
+      document.getElementById("mat-out").textContent = "—";
+      document.getElementById("mat-balance").textContent = "—";
+    }
+    document.getElementById("search-id").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        searchMaterial();
+      }
+    });
+
+    // Stock In Form
+    document.getElementById("stockin-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const id = document.getElementById("stockin-id").value.trim();
+      const qty = parseInt(document.getElementById("stockin-qty").value, 10);
+      let materials = JSON.parse(localStorage.getItem("materials")) || [];
+      const idx = materials.findIndex(m => m.id === id);
+      const msg = document.getElementById("stockin-msg");
+      if (idx === -1) {
+        msg.textContent = "Material not found!";
+        msg.className = "error";
+        return;
+      }
+      materials[idx].in = (materials[idx].in || 0) + qty;
+      localStorage.setItem("materials", JSON.stringify(materials));
+      msg.textContent = "Stock In updated successfully!";
+      msg.className = "success";
+      this.reset();
+    });
+
+    // Button Functions
+    function handleEdit() {
+      alert('Edit function coming soon!');
+    }
+    function handleBackToDashboard() {
+      showSection('dashboard');
+    }
+    function handleExit() {
+      exitApp();
+    }
+    function handlePrint() {
+      window.print();
+    }
+
+    // Attach to all Edit, Back, Exit, Print buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      // Edit buttons
+      document.querySelectorAll('.action.edit').forEach(btn => {
+        btn.onclick = handleEdit;
+      });
+      // Back to Dashboard buttons
+      document.querySelectorAll('.action.back').forEach(btn => {
+        btn.onclick = handleBackToDashboard;
+      });
+      // Exit buttons
+      document.querySelectorAll('.action.exit').forEach(btn => {
+        btn.onclick = handleExit;
+      });
+        // Print button (already handled above, but ensure)
+        const printBtn = document.getElementById('report-print-btn');
+        if (printBtn) printBtn.onclick = handlePrint;
+        // Back to Dashboard and Exit for report section
+        const reportBackBtn = document.getElementById('report-back-btn');
+        if (reportBackBtn) reportBackBtn.onclick = handleBackToDashboard;
+        const reportExitBtn = document.getElementById('report-exit-btn');
+        if (reportExitBtn) reportExitBtn.onclick = handleExit;
+    });
+
+    // Stock Out Form
+    document.getElementById("stockout-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const id = document.getElementById("stockout-id").value.trim();
+      const qty = parseInt(document.getElementById("stockout-qty").value, 10);
+      let materials = JSON.parse(localStorage.getItem("materials")) || [];
+      const idx = materials.findIndex(m => m.id === id);
+      const msg = document.getElementById("stockout-msg");
+      if (idx === -1) {
+        msg.textContent = "Material not found!";
+        msg.className = "error";
+        return;
+      }
+      if ((materials[idx].in || 0) - (materials[idx].out || 0) < qty) {
+        msg.textContent = "Not enough stock!";
+        msg.className = "error";
+        return;
+      }
+      materials[idx].out = (materials[idx].out || 0) + qty;
+      localStorage.setItem("materials", JSON.stringify(materials));
+      msg.textContent = "Stock Out updated successfully!";
+      msg.className = "success";
+      this.reset();
+    });
+
+    // Add New Material Form
+    document.getElementById("newmat-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const id = document.getElementById("newmat-id").value.trim();
+      const name = document.getElementById("newmat-name").value.trim();
+      let materials = JSON.parse(localStorage.getItem("materials")) || [];
+      const msg = document.getElementById("newmat-msg");
+      if (!id || !name) {
+        msg.textContent = "Please fill all fields!";
+        msg.className = "error";
+        return;
+      }
+      if (materials.some(m => m.id === id)) {
+        msg.textContent = "Material ID already exists!";
+        msg.className = "error";
+        return;
+      }
+      materials.push({ id, name, in: 0, out: 0 });
+      localStorage.setItem("materials", JSON.stringify(materials));
+      msg.textContent = "Material added successfully!";
+      msg.className = "success";
+      this.reset();
+    });
+
+    // Report Table
+    function renderReport() {
+      const materials = JSON.parse(localStorage.getItem("materials")) || [];
+      const tbody = document.querySelector("#report-table tbody");
+      tbody.innerHTML = "";
+      // Get filter values
+  const dateFromVal = document.getElementById("report-date-from")?.value;
+  const dateToVal = document.getElementById("report-date-to")?.value;
+      const matNameVal = document.getElementById("report-material")?.value?.toLowerCase() || "";
+  // For demo: date filter is not functional unless you store per-transaction dates in your data model
+      // Material name filter
+      let filtered = materials;
+      if (matNameVal) {
+        filtered = filtered.filter(m => m.name.toLowerCase().includes(matNameVal));
+      }
+  // If you add per-transaction date, filter here as well
+  // Example for future: filter by transaction date if available
+  // if (dateFromVal || dateToVal) {
+  //   filtered = filtered.filter(m => {
+  //     // Compare m.date (must be stored in your data)
+  //   });
+  // }
+      filtered.forEach(m => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${m.id}</td>
+                        <td>${m.name}</td>
+                        <td>${m.in || 0}</td>
+                        <td>${m.out || 0}</td>
+                        <td>${(m.in || 0) - (m.out || 0)}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Report filter events
+    document.addEventListener("DOMContentLoaded", function() {
+      const reportSection = document.getElementById("report");
+      if (reportSection) {
+        document.getElementById("report-filter-btn").onclick = renderReport;
+        document.getElementById("report-clear-btn").onclick = function() {
+          document.getElementById("report-date-from").value = "";
+          document.getElementById("report-date-to").value = "";
+          document.getElementById("report-material").value = "";
+          renderReport();
+        };
+        // Optional: live filter as you type
+        document.getElementById("report-material").addEventListener("input", renderReport);
+        document.getElementById("report-print-btn").onclick = function() {
+          window.print();
+        };
+      }
+    });
+
+    // Exit
+    function exitApp() {
+      if (confirm("Are you sure you want to exit and delete all data?")) {
+        localStorage.removeItem("materials");
+        alert("All data deleted. Closing application...");
+        window.open('', '_self');
+        window.close();
+      }
+    }
+    // ...existing code...
+
+// Search Material by ID in Add New Material section
+document.getElementById("stockout-search-btn").onclick = function() {
+  const id = document.getElementById("newmat-id").value.trim();
+  const msg = document.getElementById("newmat-msg");
+  if (!id) {
+    msg.textContent = "Please enter Material ID to search!";
+    msg.className = "error";
+    return;
+  }
+  const materials = JSON.parse(localStorage.getItem("materials")) || [];
+  const found = materials.find(m => m.id === id);
+  if (found) {
+    document.getElementById("newmat-name").value = found.name || "";
+    document.getElementById("newmat-unit").value = found.unit || "";
+    document.getElementById("newmat-remarks").value = found.remarks || "";
+    msg.textContent = "Material found!";
+    msg.className = "success";
+  } else {
+    msg.textContent = "Material not found!";
+    msg.className = "error";
+    document.getElementById("newmat-name").value = "";
+    document.getElementById("newmat-unit").value = "";
+    document.getElementById("newmat-remarks").value = "";
+  }
+};
+
+// Delete Material by ID in Add New Material section
+document.getElementById("stockout-delete-btn").onclick = function() {
+  const id = document.getElementById("newmat-id").value.trim();
+  const msg = document.getElementById("newmat-msg");
+  if (!id) {
+    msg.textContent = "Please enter Material ID to delete!";
+    msg.className = "error";
+    return;
+  }
+  let materials = JSON.parse(localStorage.getItem("materials")) || [];
+  const idx = materials.findIndex(m => m.id === id);
+  if (idx === -1) {
+    msg.textContent = "Material not found!";
+    msg.className = "error";
+    return;
+  }
+  if (!confirm("Are you sure you want to delete this material?")) return;
+  materials.splice(idx, 1);
+  localStorage.setItem("materials", JSON.stringify(materials));
+  msg.textContent = "Material deleted successfully!";
+  msg.className = "success";
+  document.getElementById("newmat-form").reset();
+};
+// ...existing code...
+
+// ...existing code...
+
+// Auto-fill Material Name in Stock Out form when Material ID is entered
+document.addEventListener('DOMContentLoaded', function() {
+  var stockoutId = document.getElementById('stockout-id');
+  var stockoutName = document.getElementById('stockout-name');
+  if (stockoutId && stockoutName) {
+    stockoutId.addEventListener('input', function() {
+      var id = stockoutId.value.trim();
+      var materials = JSON.parse(localStorage.getItem('materials')) || [];
+      var found = materials.find(m => m.id === id);
+      if (found) {
+        stockoutName.value = found.name;
+      } else {
+        stockoutName.value = '';
+      }
+    });
+  }
+});
+// ...existing code...
+
+
+// ...existing code...
+
+// Report Table: Filter by Material ID
+function renderReport() {
+  const materials = JSON.parse(localStorage.getItem("materials")) || [];
+  const tbody = document.querySelector("#report-table tbody");
+  tbody.innerHTML = "";
+
+  // Filter values
+  const dateFromVal = document.getElementById("report-date-from")?.value;
+  const dateToVal = document.getElementById("report-date-to")?.value;
+  const matIdVal = document.getElementById("report-material")?.value?.toLowerCase() || "";
+
+  // Filter by Material ID (partial match)
+  let filtered = materials;
+  if (matIdVal) {
+    filtered = filtered.filter(m => m.id.toLowerCase().includes(matIdVal));
+  }
+
+  // (Date filter is not functional unless you store per-transaction dates)
+
+  filtered.forEach(m => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${m.id}</td>
+                    <td>${m.name}</td>
+                    <td>${m.in || 0}</td>
+                    <td>${m.out || 0}</td>
+                    <td>${(m.in || 0) - (m.out || 0)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// Filter events
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("report-filter-btn").onclick = renderReport;
+  document.getElementById("report-clear-btn").onclick = function() {
+    document.getElementById("report-date-from").value = "";
+    document.getElementById("report-date-to").value = "";
+    document.getElementById("report-material").value = "";
+    renderReport();
+  };
+  document.getElementById("report-material").addEventListener("input", renderReport);
+  renderReport(); // Initial load
+});
+// ...existing code...
+
+
+  </script>
+</body>
+</html>
